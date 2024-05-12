@@ -5,6 +5,7 @@ from typing import Any
 import requests
 from bs4 import BeautifulSoup
 from cachetools import cached, TTLCache
+from services.image import extract_image_url
 
 page = random.choice(range(1, 25))
 trv_url: str = 'https://www.trv-science.ru/category/edu/page/{}'.format(page)
@@ -20,9 +21,6 @@ def clear_cached_data():
     """
     cache.clear()
     print('Cached users config cleared.')
-
-
-
 
 
 @cached(cache)
@@ -42,7 +40,7 @@ def get_response_html(url: str, params: dict = None) -> str | None:
 
         response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()
-        print(response.url)
+        logging.info(response.url)
         html = response.text
         logging.info('Successfully fetched HTML')
         return html
@@ -61,6 +59,7 @@ def get_edu_trv_post(url: str, max_retries: int = 3) -> tuple[str | Any, str | A
         return get_edu_trv_post(url, 3)
 
     try:
+        # noinspection PyCallingNonCallable
         html = get_response_html(trv_url)
         soup = BeautifulSoup(html, 'html.parser')
         posts = soup.find_all('div', class_='col-sm-6 col-xxl-4 post-col')
