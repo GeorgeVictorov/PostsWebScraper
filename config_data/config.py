@@ -11,14 +11,13 @@ class DatabaseConfig:
 
 
 @dataclass
-class TgBot:
+class ApiToken:
     token: str
-    admin_ids: list[int]
 
 
 @dataclass
 class Config:
-    tg_bot: TgBot
+    api: ApiToken
     db: DatabaseConfig
 
 
@@ -27,14 +26,13 @@ def load_config(path: str = 'env/.env') -> Config:
     env.read_env(path)
 
     return Config(
-        tg_bot=TgBot(
-            token=env('BOT_TOKEN'),
-            admin_ids=list(map(int, env.list('ADMIN_IDS')))
+        api=ApiToken(
+            token=env('API_TOKEN')
         ),
         db=DatabaseConfig(
-            database=env('POSTGRES_DB'),
+            database=env('DB_NAME'),
             db_host=env('DB_HOST'),
-            db_user=env('POSTGRES_USER'),
-            db_password=env('POSTGRES_PASSWORD')
+            db_user=env('DB_USER'),
+            db_password=env('DB_PASSWORD')
         )
     )
