@@ -2,7 +2,7 @@ import logging
 import sqlite3
 from contextlib import closing
 
-from config_data.config import load_config
+from configurations.config import load_config
 
 POSTS = 'posts_data'
 

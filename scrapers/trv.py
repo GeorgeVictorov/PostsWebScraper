@@ -3,14 +3,9 @@ import random
 from typing import Any
 
 from bs4 import BeautifulSoup
-from database.dml import save_post_to_db
+from database.dml import save_post_to_db, select_titles
 from services.image import extract_image_url
 from scrapers.response import get_response_html, clear_cached_data
-
-page = random.choice(range(1, 25))
-trv_url: str = 'https://www.trv-science.ru/category/edu/page/{}'.format(page)
-titles = ('Образование? Высшее?? Забудьте', 'IT для школьников',
-          'Среднее или всё же медиана', 'Остановить утрату мозга', 'Гаусс негодует')
 
 
 def get_edu_trv_post(url: str, max_retries: int = 3) -> tuple[str | Any, str | Any, str | Any, str | None]:
@@ -23,7 +18,7 @@ def get_edu_trv_post(url: str, max_retries: int = 3) -> tuple[str | Any, str | A
         return get_edu_trv_post(url, 3)
 
     try:
-        html = get_response_html(trv_url)
+        html = get_response_html(url)
         soup = BeautifulSoup(html, 'html.parser')
         posts = soup.find_all('div', class_='col-sm-6 col-xxl-4 post-col')
 
@@ -36,7 +31,7 @@ def get_edu_trv_post(url: str, max_retries: int = 3) -> tuple[str | Any, str | A
             except AttributeError:
                 title = 'Title Not Found'
 
-            if title not in titles:
+            if title not in select_titles():
                 try:
                     snippet = post.find('div', class_='entry-content').p.text.replace('\xa0', ' ')
                 except AttributeError:

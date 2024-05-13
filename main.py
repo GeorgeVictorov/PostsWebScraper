@@ -1,9 +1,10 @@
 import logging
 
-from config_data.config import load_config
+from configurations.config import load_config
+from configurations.urls import TRV_URL
 from logger.logger import setup_logger
 from database.db import Database
-from scrapers.trv import get_edu_trv_post, trv_url
+from scrapers.trv import get_edu_trv_post
 
 
 def init_db():
@@ -21,4 +22,4 @@ if __name__ == '__main__':
 
     config = load_config()
     print(config.db.database)
-    get_edu_trv_post(trv_url)
+    get_edu_trv_post(TRV_URL)
