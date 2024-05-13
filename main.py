@@ -28,9 +28,14 @@ if __name__ == '__main__':
 
     config = load_config()
     print(config.db.database)
+
     data = get_post()
-    ids, jsons = sql_to_json(data)
-    print(ids)
-    print(jsons)
-    # print(sql_to_json(data))
-    send_data_to_api()
+    post_ids, json_data = sql_to_json(data)
+
+    print(json_data)
+
+    # send_data_to_api()
+
+    db_instance = Database()
+    db_instance.close_database()
+

@@ -1,6 +1,6 @@
 import logging
-
 import requests
+
 from configurations.config import load_config
 from configurations.urls import API_URL
 from database.dml import get_post, change_post_status
@@ -8,6 +8,9 @@ from services.to_json import sql_to_json
 
 
 def send_data_to_api():
+    """
+    Send data to the API endpoint.
+    """
     url = API_URL
     config = load_config()
 

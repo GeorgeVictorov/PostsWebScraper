@@ -1,6 +1,3 @@
-import json
-
-
 def sql_to_json(select_result):
     """
     Convert SQL select result to JSON string.
@@ -18,6 +15,4 @@ def sql_to_json(select_result):
         post_ids.append(post_id)
         json_data.append(post_data)
 
-    json_string = json.dumps(json_data, ensure_ascii=False, indent=2)
-
-    return post_ids, json_string
+    return post_ids, json_data
