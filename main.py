@@ -1,5 +1,4 @@
 import logging
-import json
 
 from api.post import send_data_to_api
 from configurations.config import load_config
