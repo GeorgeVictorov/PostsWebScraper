@@ -43,3 +43,52 @@ def select_titles() -> tuple:
 
     except sqlite3.Error as e:
         logging.error(f'Error fetching titles: {e}')
+
+
+def change_post_status(post_id):
+    """
+    Change post status.
+    """
+    database = Database()
+    con = database.get_connection()
+    try:
+        with closing(con.cursor()) as cur:
+            cur.execute(
+                f'''update {POSTS}
+                    set is_delivered = 1
+                    where
+                        id = ?''',
+                (post_id,)
+            )
+            con.commit()
+        logging.info('Post status changed successfully.')
+    except sqlite3.Error as e:
+        con.rollback()
+        logging.error(f'Error changing post status: {e}')
+
+
+def get_post() -> tuple[int, str, str, str] | None:
+    """
+    Get new post.
+    """
+    database = Database()
+    con = database.get_connection()
+    try:
+        with closing(con.cursor()) as cur:
+            res = cur.execute(
+                f'''select
+                        id,
+                        title, 
+                        snippet,   
+                        post_url
+                    from {POSTS}
+                    where
+                        is_delivered != 1
+                    order by id
+                    limit 1'''
+            )
+            logging.info('Successfully fetched post.')
+            return res.fetchone()
+    except sqlite3.Error as e:
+        logging.error(f'Error fetching post: {e}')
+        return None

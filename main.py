@@ -1,9 +1,13 @@
 import logging
 
+from api.post import send_data_to_api
 from configurations.config import load_config
 from configurations.urls import TRV_URL
 from logger.logger import setup_logger
 from database.db import Database
+
+from database.dml import get_post
+
 from scrapers.trv import get_edu_trv_post
 
 
@@ -22,4 +26,6 @@ if __name__ == '__main__':
 
     config = load_config()
     print(config.db.database)
-    get_edu_trv_post(TRV_URL)
+    post_id, *data = get_post()
+    print(data)
+    send_data_to_api()
