@@ -1,50 +1,16 @@
 import logging
 import random
 from typing import Any
-from functools import lru_cache
 
-import requests
 from bs4 import BeautifulSoup
+from database.dml import save_post_to_db
 from services.image import extract_image_url
+from scrapers.response import get_response_html, clear_cached_data
 
 page = random.choice(range(1, 25))
 trv_url: str = 'https://www.trv-science.ru/category/edu/page/{}'.format(page)
 titles = ('Образование? Высшее?? Забудьте', 'IT для школьников',
           'Среднее или всё же медиана', 'Остановить утрату мозга', 'Гаусс негодует')
-
-
-def clear_cached_data():
-    """
-    Clear cached data from the cache.
-    """
-    get_response_html.clear_cache()
-    logging.info('Cached users config cleared.')
-
-
-@lru_cache(maxsize=100)
-def get_response_html(url: str, params: dict = None) -> str | None:
-    """
-    Fetch HTML content from the given URL using GET request.
-    """
-    try:
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) '
-                          'AppleWebKit/537.36 (KHTML, like Gecko) '
-                          'Chrome/87.0.4280.88 Safari/537.36'
-        }
-
-        if params is None:
-            params = {}
-
-        response = requests.get(url, headers=headers, params=params)
-        response.raise_for_status()
-        logging.info(response.url)
-        html = response.text
-        logging.info('Successfully fetched HTML')
-        return html
-    except requests.exceptions.RequestException as e:
-        logging.error(f'An error occurred while fetching HTML from {url}: {e}')
-        return None
 
 
 def get_edu_trv_post(url: str, max_retries: int = 3) -> tuple[str | Any, str | Any, str | Any, str | None]:
@@ -88,7 +54,8 @@ def get_edu_trv_post(url: str, max_retries: int = 3) -> tuple[str | Any, str | A
                     image_url = 'Image Not Found'
 
                 logging.info('Post fetched successfully!\n')
-                return title, snippet, post_url, image_url
+                return save_post_to_db(title, snippet, post_url, image_url)
 
     except Exception as e:
         logging.error(f'An error occurred: {e}')
+        return None, None, None, None

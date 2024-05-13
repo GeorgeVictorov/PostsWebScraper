@@ -21,4 +21,4 @@ if __name__ == '__main__':
 
     config = load_config()
     print(config.db.database)
-    print(get_edu_trv_post(trv_url))
+    get_edu_trv_post(trv_url)

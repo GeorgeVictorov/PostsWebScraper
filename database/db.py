@@ -1,5 +1,6 @@
 import logging
 import sqlite3
+from contextlib import closing
 
 from config_data.config import load_config
 
@@ -42,17 +43,17 @@ class Database:
     def create_table(self):
         try:
             with self.db_connection as con:
-                cur = con.cursor()
-                cur.execute(
-                    f'''create table if not exists {POSTS} (
-                        id integer primary key,
-                        title text,
-                        snippet text,
-                        post_url text,
-                        image_url text,
-                        is_delivered integer default 0)'''
-                )
-                self.db_connection.commit()
+                with closing(con.cursor()) as cur:
+                    cur.execute(
+                        f'''create table if not exists {POSTS} (
+                            id integer primary key,
+                            title text,
+                            snippet text,
+                            post_url text,
+                            image_url text,
+                            is_delivered integer default 0)'''
+                    )
+                    self.db_connection.commit()
             logging.info(f'Table {POSTS} created or verified')
         except Exception as e:
             logging.error(f'Error creating table {POSTS}: {e}')
