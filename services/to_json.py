@@ -1,16 +1,23 @@
 import json
 
 
-def sql_to_json(data: tuple) -> str:
+def sql_to_json(select_result):
     """
     Convert SQL select result to JSON string.
     """
-    post_data = {
-        'Source': data[2],
-        'Title': data[0],
-        'Text': data[1]
-    }
+    post_ids = []
+    json_data = []
 
-    json_string = json.dumps(post_data, ensure_ascii=False)
+    for row in select_result:
+        post_id, title, snippet, post_url = row
+        post_data = {
+            'Title': title,
+            'Text': snippet,
+            'Source': post_url
+        }
+        post_ids.append(post_id)
+        json_data.append(post_data)
 
-    return json_string
+    json_string = json.dumps(json_data, ensure_ascii=False, indent=2)
+
+    return post_ids, json_string

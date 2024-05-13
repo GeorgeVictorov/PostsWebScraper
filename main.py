@@ -1,4 +1,5 @@
 import logging
+import json
 
 from api.post import send_data_to_api
 from configurations.config import load_config
@@ -7,6 +8,7 @@ from logger.logger import setup_logger
 from database.db import Database
 
 from database.dml import get_post
+from services.to_json import sql_to_json
 
 from scrapers.trv import get_edu_trv_post
 
@@ -26,6 +28,9 @@ if __name__ == '__main__':
 
     config = load_config()
     print(config.db.database)
-    post_id, *data = get_post()
-    print(data)
+    data = get_post()
+    ids, jsons = sql_to_json(data)
+    print(ids)
+    print(jsons)
+    # print(sql_to_json(data))
     send_data_to_api()

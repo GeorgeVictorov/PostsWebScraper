@@ -84,11 +84,10 @@ def get_post() -> tuple[int, str, str, str] | None:
                     from {POSTS}
                     where
                         is_delivered != 1
-                    order by id
-                    limit 1'''
+                    order by id'''
             )
             logging.info('Successfully fetched post.')
-            return res.fetchone()
+            return res.fetchall()
     except sqlite3.Error as e:
         logging.error(f'Error fetching post: {e}')
         return None

@@ -11,8 +11,8 @@ def send_data_to_api():
     url = API_URL
     config = load_config()
 
-    post_id, *data = get_post()
-    json_data = sql_to_json(data)
+    data = get_post()
+    post_ids, json_data = sql_to_json(data)
 
     headers = {
         'Authorization': str(config.api.token),
@@ -22,7 +22,8 @@ def send_data_to_api():
     try:
         response = requests.post(url, json=json_data, headers=headers)
         if response.status_code == 201:
-            change_post_status(post_id)
+            for post_id in post_ids:
+                change_post_status(post_id)
             logging.info('Data added successfully')
         else:
             logging.error(f'Error: {response.status_code}, {response.content}')
