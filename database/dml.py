@@ -67,7 +67,7 @@ def change_post_status(post_id):
         logging.error(f'Error changing post status: {e}')
 
 
-def get_post() -> tuple[int, str, str, str] | None:
+def get_post() -> tuple[int, str, str, str, str] | None:
     """
     Get new post.
     """
@@ -80,7 +80,8 @@ def get_post() -> tuple[int, str, str, str] | None:
                         id,
                         title, 
                         snippet,   
-                        post_url
+                        post_url,
+                        image_url
                     from {POSTS}
                     where
                         is_delivered != 1

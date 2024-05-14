@@ -28,12 +28,13 @@ if __name__ == '__main__':
     config = load_config()
     print(config.db.database)
 
-    data = get_post()
-    post_ids, json_data = sql_to_json(data)
+    # get_edu_trv_post(TRV_URL)
 
-    print(json_data)
+    # data = get_post()
+    # post_ids, json_data = sql_to_json(data)
+    # print(json_data)
 
-    # send_data_to_api()
+    send_data_to_api()
 
     db_instance = Database()
     db_instance.close_database()
