@@ -6,6 +6,7 @@ environs==11.0.0
 idna==3.7
 marshmallow==3.21.2
 packaging==24.0
+pillow==10.3.0
 python-dotenv==1.0.1
 requests==2.31.0
 soupsieve==2.5

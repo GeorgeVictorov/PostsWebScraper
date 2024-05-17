@@ -5,10 +5,6 @@ from configurations.config import load_config
 from configurations.urls import TRV_URL
 from logger.logger import setup_logger
 from database.db import Database
-
-from database.dml import get_post
-from services.to_json import sql_to_json
-
 from scrapers.trv import get_edu_trv_post
 
 
@@ -26,16 +22,10 @@ if __name__ == '__main__':
     init_db()
 
     config = load_config()
-    print(config.db.database)
 
     # get_edu_trv_post(TRV_URL)
-
-    # data = get_post()
-    # post_ids, json_data = sql_to_json(data)
-    # print(json_data)
 
     send_data_to_api()
 
     db_instance = Database()
     db_instance.close_database()
-

@@ -15,7 +15,7 @@ def sql_to_json(select_result):
             'Title': title,
             'Text': snippet,
             'Source': post_url,
-            'Picture': image_url
+            'Picture': '' if image_url == 'Image Not Found' else image_url
         }
         post_ids.append(post_id)
         json_data.append(post_data)

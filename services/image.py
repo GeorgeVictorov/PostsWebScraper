@@ -34,6 +34,8 @@ def image_url_to_base64(image_url: str) -> str | None:
     """
     Converts an image from a URL to Base64 after compressing it.
     """
+    if image_url == 'Image Not Found':
+        return 'Image Not Found'
     try:
         image_response = requests.get(image_url)
         image_response.raise_for_status()
