@@ -3,8 +3,7 @@ import sqlite3
 from contextlib import closing
 
 from configurations.config import load_config
-
-POSTS = 'posts_data'
+from configurations.tables_names import POSTS
 
 
 class Database:

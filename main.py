@@ -7,6 +7,8 @@ from logger.logger import setup_logger
 from database.db import Database
 from scrapers.trv import get_edu_trv_post
 
+from database.dml import select_titles, get_post
+
 
 def init_db():
     try:
@@ -23,9 +25,8 @@ if __name__ == '__main__':
 
     config = load_config()
 
-    # get_edu_trv_post(TRV_URL)
+    get_edu_trv_post(TRV_URL)
 
-    send_data_to_api()
-
+    # send_data_to_api()
     db_instance = Database()
     db_instance.close_database()
