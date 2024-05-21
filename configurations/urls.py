@@ -8,4 +8,6 @@ VLG_URL: str = 'https://www.the-village.ru/posts/weekend'
 
 DLT_URL: str = 'https://diletant.media/rss/articles/'
 
-API_URL = 'https://nitrojamrec.ru/api/v1/posts'
+HLD_URL: str = 'https://holod.media/sections/stories/'
+
+API_URL = ''

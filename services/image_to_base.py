@@ -6,14 +6,25 @@ import requests
 from PIL import Image
 from scrapers.response import HTMLFetcher
 
+NGINX_MAX_UPLOAD_SIZE = 1_000_000
 
-def compress_image(image, max_size=1_000_000):
+
+def compress_image(image, max_size=NGINX_MAX_UPLOAD_SIZE):
     """
     Compresses the given image to fit within the specified maximum size.
     """
     img = Image.open(image)
     img = img.convert("RGB")
-    img.thumbnail((1024, 1024))
+
+    scale = 1
+    if max_size:
+        orig_size = img.size[0] * img.size[1] * 3
+        scale = min(1.0, (max_size / orig_size) ** 0.5)
+
+    new_width = int(img.size[0] * scale)
+    new_height = int(img.size[1] * scale)
+    img.thumbnail((new_width, new_height))
+
     img_buffer = io.BytesIO()
     img.save(img_buffer, format="JPEG", quality=85)
     img_buffer.seek(0)
