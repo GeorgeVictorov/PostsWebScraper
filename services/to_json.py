@@ -1,4 +1,4 @@
-from services.image import image_url_to_base64
+from services.image_to_base import image_url_to_base64
 
 
 def sql_to_json(select_result):

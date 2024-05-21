@@ -1,20 +1,10 @@
-import re
 import base64
 import io
 import logging
 
 import requests
 from PIL import Image
-
-
-def extract_image_url(image_url: str) -> str | None:
-    """
-    Extracts the URL from the background-image CSS style attribute.
-    """
-    url_match = re.search(r"url\('([^']+)'\)", image_url)
-    if url_match:
-        return url_match.group(1)
-    return None
+from scrapers.response import HTMLFetcher
 
 
 def compress_image(image, max_size=1_000_000):
@@ -37,7 +27,8 @@ def image_url_to_base64(image_url: str) -> str | None:
     if image_url == 'Image Not Found':
         return 'Image Not Found'
     try:
-        image_response = requests.get(image_url)
+        html_fetcher = HTMLFetcher()
+        image_response = html_fetcher.get_response(image_url)
         image_response.raise_for_status()
 
         # Compress the image

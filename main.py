@@ -2,12 +2,10 @@ import logging
 
 from api.post import send_data_to_api
 from configurations.config import load_config
-from configurations.urls import TRV_URL
+from configurations.urls import TRV_URL, VLG_URL, DLT_URL
 from logger.logger import setup_logger
 from database.db import Database
-from scrapers.trv import get_edu_trv_post
-
-from database.dml import select_titles, get_post
+from scrapers import get_edu_trv_post, get_vlg_post, get_dlt_rss_post
 
 
 def init_db():
@@ -25,8 +23,9 @@ if __name__ == '__main__':
 
     config = load_config()
 
-    get_edu_trv_post(TRV_URL)
-
-    # send_data_to_api()
+    # get_edu_trv_post(TRV_URL)
+    # get_vlg_post(VLG_URL)
+    # get_dlt_rss_post(DLT_URL)
+    send_data_to_api()
     db_instance = Database()
     db_instance.close_database()
