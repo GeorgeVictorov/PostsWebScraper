@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is designed to scrape posts from various websites, store the scraped data in an SQLite database, and send
+This project is designed to scrape posts from various websites, store the scraped data in SQLite database, and send
 the collected data to specified destinations via APIs.
 
 ## Features
